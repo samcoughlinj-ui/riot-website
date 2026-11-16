@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIOT — custom corduroy hats for local businesses</title>
+<style>
+:root{--ink:#111;--mute:#666;--line:#ddd;--red:#b32027;--card:#f6f6f4}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+.wrap{max-width:1100px;margin:auto;padding:0 20px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.heavy,.mark,h2.sec,.hero h1{font-family:"Arial Black",Impact,"Helvetica Neue",sans-serif;font-weight:900;text-transform:uppercase}
+.mark{font-size:34px;line-height:1;letter-spacing:-1px;color:var(--ink);text-decoration:none}
+.btn{display:inline-block;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:12px 26px;font:600 15px system-ui,sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--red)}.btn:disabled{opacity:.5;cursor:default}
+.btn.line{background:#fff;color:var(--ink);border:2px solid var(--ink);padding:8px 18px}.btn.line:hover{background:var(--ink);color:#fff}
+.hero{padding:50px 0 20px}
+.hero h1{font-size:clamp(38px,7vw,78px);line-height:1;margin:0 0 16px;letter-spacing:-2px}
+.hero p{font-size:19px;color:var(--mute);max-width:560px;margin:0 0 26px}
+h2.sec{font-size:26px;margin:54px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.grid figure{margin:0;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--card)}
+.grid img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;border:2px dashed var(--line);border-radius:12px;color:var(--mute);font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.steps div{background:var(--card);border-radius:12px;padding:18px}
+.steps b{font:900 30px "Arial Black",sans-serif;color:var(--red)}
+.cta{text-align:center;margin:50px 0 10px}
+footer{padding:40px 0;color:var(--mute);font-size:14px}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px}
+.navlinks{display:flex;gap:20px;align-items:center;font-weight:600;font-size:15px;flex-wrap:wrap}
+.navlinks a{color:var(--ink);text-decoration:none}.navlinks a:hover,.navlinks a.on{color:var(--red)}
+.prod{background:var(--card);border-radius:14px;overflow:hidden;padding-bottom:18px}
+.pimg{position:relative}.pimg svg{width:100%;height:auto;display:block}
+.pimg.so svg{filter:grayscale(.5) opacity(.78)}
+.badge{position:absolute;top:12px;left:12px;background:var(--ink);color:#fff;font:700 12px system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.pb{padding:0 18px}.pn{font-size:20px!important;text-transform:none!important;letter-spacing:0!important;color:var(--ink)!important;margin:14px 0 4px!important}
+.notify{display:flex;gap:8px;margin-top:12px}.notify input{flex:1;padding:10px;border:1px solid var(--line);border-radius:8px;font:14px system-ui,sans-serif}
+.crow{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:12px;padding:12px;margin-bottom:10px}
+.crow .cimg{width:110px}.crow .cimg svg{width:100%;height:auto;display:block;border-radius:8px}
+.crow .ci{flex:1}.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px}
+.narrow{max-width:640px}
+/* designer */
+.dz{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;padding-bottom:50px}
+@media(max-width:860px){.dz{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:14px;padding:18px}
+.stagecard{position:sticky;top:10px;align-self:start;background:#fff;border:1px solid var(--line)}
+#stage svg{width:100%;height:auto;display:block}
+.lg{cursor:grab;touch-action:none}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tabs button{flex:1;padding:9px;border:2px solid var(--ink);background:#fff;border-radius:8px;font:600 14px system-ui,sans-serif;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;color:var(--mute);margin:18px 0 8px}
+h3:first-child{margin-top:0}
+.sw{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.sw button{width:30px;height:30px;border-radius:50%;border:2px solid #ccc;cursor:pointer;padding:0}
+.sw button[aria-pressed=true]{outline:3px solid var(--ink);outline-offset:2px}
+input[type=color]{width:30px;height:30px;border:none;padding:0;background:none;cursor:pointer}
+label.f{display:block;font-size:14px;margin:10px 0 4px}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:15px system-ui,sans-serif;background:#fff}
+input[type=range]{width:100%}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:13px;color:var(--mute);margin:6px 0}
+.drop{border:2px dashed #bbb;border-radius:10px;padding:14px;text-align:center;font-size:14px;cursor:pointer;display:block;background:#fff}
+.drop:hover{border-color:var(--red)}
+.go{width:100%;margin-top:18px;padding:14px;border-radius:10px}
+.msg{margin-top:12px;padding:12px;border-radius:8px;font-size:14px;display:none}
+.msg.ok{background:#e2f0df;display:block}.msg.err{background:#f8dcd5;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="navbar"><a class="mark" href="#">Riot</a><div class="navlinks"><a href="#shop">Shop</a><a href="#design">Design your hat</a><a href="#account">Account</a><a href="#cart">Cart (<span id="cartN">0</span>)</a></div></nav>
+
+<!-- HOME -->
+<div id="home">
+  <section class="hero">
+    <h1>Corduroy hats<br>for your business.</h1>
+    <p>Custom hats for local businesses, clubs and teams. Orders of 10 to 100. Design yours online and we'll take it from there.</p>
+    <a class="btn" href="#design">Design your hat</a> <a class="btn line" href="#shop">Shop our designs</a>
+  </section>
+  <h2 class="sec">Past work</h2>
+  <div class="grid" id="gallery"></div>
+  <h2 class="sec">How it works</h2>
+  <div class="steps">
+    <div><b>1</b><p><strong>Design it.</strong> Pick colours and add your logo to the front, sides and back.</p></div>
+    <div><b>2</b><p><strong>Send it.</strong> Add your contact details and hit submit. It comes straight to us.</p></div>
+    <div><b>3</b><p><strong>We make it.</strong> We confirm the details and quantity (10 to 100) and get to work.</p></div>
+  </div>
+  <div class="cta"><a class="btn" href="#design">Start designing</a></div>
+  <footer>RIOT · <span id="ft"></span> · Bendigo, Victoria, Australia</footer>
+</div>
+
+<!-- DESIGNER -->
+<div id="designer" hidden>
+  <div class="dz">
+    <section class="card stagecard">
+      <div class="tabs" id="tabs"></div>
+      <div id="stage"></div>
+      <p class="hint" style="text-align:center">Preview only. Final colours and corduroy are matched to our fabric stock.</p>
+    </section>
+    <section class="card">
+      <h3>Logo / artwork for this side</h3>
+      <label class="drop"><input type="file" id="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden><span id="upText"></span></label>
+      <label class="f">Size <input type="range" id="size" min="50" max="260" value="130"></label>
+      <p class="hint">Drag the logo on the hat to move it. Use the tabs above to switch between front, sides and back.</p>
+      <button class="btn line" id="rm" type="button">Remove logo from this side</button>
+      <div id="colours"></div>
+      <h3>Order details</h3>
+      <div class="row">
+        <div><label class="f" for="qty">Quantity (10–100)</label><input type="number" id="qty" min="10" max="100" value="25"></div>
+        <div><label class="f" for="biz">Business name</label><input type="text" id="biz" autocomplete="organization"></div>
+      </div>
+      <div class="row">
+        <div><label class="f" for="name">Your name</label><input type="text" id="name" autocomplete="name"></div>
+        <div><label class="f" for="phone">Phone</label><input type="tel" id="phone" autocomplete="tel"></div>
+      </div>
+      <label class="f" for="email">Email</label><input type="email" id="email" autocomplete="email">
+      <label class="f" for="notes">Anything else? (deadline, extra details)</label><textarea id="notes" rows="3"></textarea>
+      <button class="btn go" id="submit">Submit design</button>
+      <div class="msg" id="msg"></div>
+    </section>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" hidden>
+  <h2 class="sec" style="margin-top:20px">Riot designs</h2>
+  <p class="hint">Our own in-house corduroy caps. Small runs, so when they're gone they're gone.</p>
+  <div class="grid" id="products" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))"></div>
+</div>
+
+<!-- CART -->
+<div id="cart" hidden><h2 class="sec" style="margin-top:20px">Cart</h2><div id="cartBody"></div></div>
+
+<!-- CHECKOUT -->
+<div id="checkout" hidden><h2 class="sec" style="margin-top:20px">Checkout</h2><div id="coBody" class="narrow"></div></div>
+
+<!-- ACCOUNT -->
+<div id="account" hidden>
+  <h2 class="sec" style="margin-top:20px">Your account</h2>
+  <div class="card narrow">
+    <p class="hint">Your details are saved on this device only and are used to fill in checkout. There is no password.</p>
+    <div class="row"><div><label class="f" for="a_name">Name</label><input type="text" id="a_name" autocomplete="name"></div><div><label class="f" for="a_email">Email</label><input type="email" id="a_email" autocomplete="email"></div></div>
+    <div class="row"><div><label class="f" for="a_phone">Phone</label><input type="tel" id="a_phone" autocomplete="tel"></div><div><label class="f" for="a_addr">Street address</label><input type="text" id="a_addr" autocomplete="street-address"></div></div>
+    <div class="row"><div><label class="f" for="a_sub">Suburb</label><input type="text" id="a_sub" autocomplete="address-level2"></div><div class="row"><div><label class="f" for="a_state">State</label><input type="text" id="a_state" autocomplete="address-level1"></div><div><label class="f" for="a_pc">Postcode</label><input type="text" id="a_pc" autocomplete="postal-code"></div></div></div>
+    <button class="btn go" id="a_save">Save details</button>
+    <div class="msg" id="a_msg"></div>
+    <h3 style="margin-top:26px">Order history (this device)</h3>
+    <div id="a_orders"></div>
+    <button class="btn line" id="a_clear" style="margin-top:14px">Clear my saved data</button>
+  </div>
+</div>
+
+</div>
+<script>
+// ---------- SETTINGS (edit these) ----------
+const ORDER_EMAIL = "orders@riotaustralia.com.au"; // shown on the site
+const RECIPIENT = "samcoughlin.j@gmail.com"; // who receives submitted designs. TESTING: change to ORDER_EMAIL when live
+const ORDER_ENDPOINT = "https://formsubmit.co/" + RECIPIENT; // FormSubmit emails the design + logos to RECIPIENT. Set to "" to use the email-draft fallback only
+const SAMPLES = ["images/hat-1.jpg","images/hat-2.jpg","images/hat-3.jpg","images/hat-4.jpg","images/hat-5.jpg","images/hat-6.jpg"]; // your photos
+// -------------------------------------------
+const $ = id => document.getElementById(id);
+const COL = ["#ffffff","#e6dcc6","#c9a77c","#fff200","#d9a21b","#08a822","#1f3a2e","#52663a","#2d5da8","#1e2536","#b32027","#7a1f2b","#3a3d41","#1b1b1b"];
+const VIEWS = [["front","Front"],["left","Left side"],["right","Right side"],["back","Back"]];
+const DEF = {front:[290,195,115], right:[285,195,100], left:[315,195,100], back:[300,200,110]};
+const ROWS = [["crown","Front panels"],["side","Side & back panels"],["brim","Brim & strap"],["btn","Top button"],["stitch","Eyelet stitching"]];
+const st = {crown:"#ffffff", side:"#ffffff", brim:"#08a822", btn:"#fff200", stitch:"#fff200", view:"front", logos:{}};
+const label = v => VIEWS.find(x => x[0] === v)[1];
+
+$("ft").textContent = ORDER_EMAIL;
+SAMPLES.forEach((src, i) => {
+  const f = document.createElement("figure"), im = new Image();
+  im.alt = "Past riot hat " + (i + 1);
+  im.onerror = () => { f.innerHTML = '<div class="ph">Add your photo as ' + src + '</div>'; };
+  im.src = src; f.appendChild(im); $("gallery").appendChild(f);
+});
+
+let HC = 0;
+function hatSVG(v){
+  const K = "#111", O = `stroke="${K}" stroke-width="1.3" stroke-linejoin="round"`, clips = [];
+  const cid = d => { const id = "c" + (HC++) + "_" + clips.length; clips.push(`<clipPath id="${id}"><path d="${d}"/></clipPath>`); return id; };
+  const sm = d => `<path d="${d}" fill="none" stroke="${K}" stroke-width="1" stroke-dasharray="none"/>`;
+  const eye = (x, y, r) => `<ellipse cx="${x}" cy="${y}" rx="11" ry="7" transform="rotate(${r} ${x} ${y})" fill="${st.stitch}" ${O}/>`;
+  const top = (x, y) => `<path d="M${x-20} ${y} C${x-20} ${y-9} ${x-8} ${y-11} ${x} ${y-11} C${x+10} ${y-11} ${x+20} ${y-8} ${x+20} ${y} C${x+20} ${y+7} ${x+8} ${y+9} ${x} ${y+9} C${x-10} ${y+9} ${x-20} ${y+7} ${x-20} ${y}Z" fill="${st.btn}" ${O}/>`;
+  let g;
+  if (v === "front") {
+    const CR = "M110 268 C112 170 175 80 270 50 C320 34 380 34 430 52 C500 78 560 160 575 262 C578 280 574 292 568 300 C480 318 330 320 240 306 C190 298 150 288 110 268Z";
+    const BR = "M110 268 C70 290 38 318 36 342 C40 372 130 398 290 404 C430 408 510 380 545 340 C558 326 566 312 568 300 C480 318 330 320 240 306 C190 298 150 288 110 268Z";
+    const FP = "M345 40 C240 56 170 120 140 292 L545 300 C525 120 430 46 345 40Z";
+    const c = cid(CR);
+    g = `<path d="${BR}" fill="${st.brim}" ${O}/><path d="${CR}" fill="${st.side}" ${O}/><path d="${FP}" fill="${st.crown}" clip-path="url(#${c})"/>${sm("M345 40 C320 120 290 220 270 312")}${sm("M345 40 C240 56 170 120 140 288")}${sm("M345 40 C430 46 520 120 540 302")}<path d="${CR}" fill="none" ${O}/>${eye(230,110,-15)}${eye(378,113,15)}${top(348,38)}`;
+  } else if (v === "back") {
+    const BC = "M95 300 C80 180 150 70 300 62 C450 70 520 180 505 300 C440 320 160 320 95 300Z";
+    const ST = "M100 268 C170 292 430 292 500 268 L504 304 C430 324 170 324 96 304Z";
+    g = `<path d="M470 240 C522 236 566 262 578 300 C548 332 506 322 492 302Z" fill="${st.brim}" ${O}/><path d="${BC}" fill="${st.side}" ${O}/>${sm("M300 64 C300 150 300 240 300 306")}${sm("M300 64 C230 100 175 190 160 305")}${sm("M300 64 C370 100 425 190 440 305")}${eye(238,116,22)}${eye(362,116,-22)}${top(300,62)}<path d="${ST}" fill="${st.brim}" ${O}/><rect x="392" y="282" width="46" height="30" rx="3" fill="#a58a5a" ${O}/><rect x="440" y="288" width="14" height="20" rx="5" fill="#6e5a3a" ${O}/>`;
+  } else {
+    const CR = "M90 300 C80 170 160 60 280 56 C380 54 450 110 470 190 C476 220 478 250 474 285 C380 312 190 318 90 300Z";
+    const BR = "M440 270 C490 262 560 272 592 296 C594 312 560 324 520 324 C480 324 452 314 440 298Z";
+    const TB = "M82 266 C68 284 70 304 86 312 L106 308 C98 296 98 280 102 268Z";
+    const FP = "M280 58 C350 80 410 160 424 300 L520 300 L520 40 L280 40Z";
+    const c = cid(CR);
+    const side = `<path d="${TB}" fill="${st.brim}" ${O}/><path d="${BR}" fill="${st.brim}" ${O}/><path d="${CR}" fill="${st.side}" ${O}/><path d="${FP}" fill="${st.crown}" clip-path="url(#${c})"/>${sm("M280 58 C350 80 410 160 424 296")}${sm("M280 58 C220 100 170 190 160 306")}<path d="${CR}" fill="none" ${O}/>${eye(386,120,35)}${eye(120,190,-35)}${top(280,56)}`;
+    g = v === "left" ? `<g transform="translate(600 0) scale(-1 1)">${side}</g>` : side;
+  }
+  const L = st.logos[v];
+  const img = L ? `<image class="lg" href="${L.url}" x="${L.x - L.s/2}" y="${L.y - L.s/2}" width="${L.s}" height="${L.s}" preserveAspectRatio="xMidYMid meet"/>` : "";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420"><defs>${clips.join("")}</defs>${g}${img}</svg>`;
+}
+
+function colours(){
+  const box = $("colours"); box.innerHTML = "";
+  ROWS.forEach(([k, l]) => {
+    const h = document.createElement("h3"); h.textContent = l;
+    const d = document.createElement("div"); d.className = "sw";
+    COL.forEach(c => {
+      const b = document.createElement("button");
+      b.style.background = c; b.title = c; b.setAttribute("aria-label", l + " " + c); b.setAttribute("aria-pressed", st[k] === c);
+      b.onclick = () => { st[k] = c; colours(); draw(); };
+      d.appendChild(b);
+    });
+    const i = document.createElement("input"); i.type = "color"; i.value = st[k]; i.title = "Custom colour";
+    i.oninput = () => { st[k] = i.value; draw(); };
+    d.appendChild(i); box.append(h, d);
+  });
+}
+
+function draw(){
+  $("stage").innerHTML = hatSVG(st.view);
+  [...$("tabs").children].forEach(b => b.classList.toggle("on", b.dataset.v === st.view));
+  const L = st.logos[st.view];
+  $("size").disabled = $("rm").disabled = !L;
+  if (L) $("size").value = L.s;
+  $("upText").textContent = (L ? "Change logo for the " : "Upload logo for the ") + label(st.view).toLowerCase() + " (PNG, JPG, SVG)";
+}
+VIEWS.forEach(([v, l]) => {
+  const b = document.createElement("button"); b.textContent = l; b.dataset.v = v; b.type = "button";
+  b.onclick = () => { st.view = v; draw(); }; $("tabs").appendChild(b);
+});
+
+$("file").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  if (f.size > 10 * 1024 * 1024) return show("That file is over 10 MB. Please upload a smaller one.", true);
+  const v = st.view, r = new FileReader();
+  r.onload = () => { const d = DEF[v]; st.logos[v] = {file:f, url:r.result, x:d[0], y:d[1], s:d[2]}; draw(); };
+  r.readAsDataURL(f);
+});
+$("size").addEventListener("input", e => { const L = st.logos[st.view]; if (L) { L.s = +e.target.value; $("stage").innerHTML = hatSVG(st.view); } });
+$("rm").addEventListener("click", () => { delete st.logos[st.view]; draw(); });
+
+let drag = null;
+$("stage").addEventListener("pointerdown", e => {
+  const L = st.logos[st.view];
+  if (!L || !e.target.classList || !e.target.classList.contains("lg")) return;
+  const k = 600 / $("stage").firstChild.getBoundingClientRect().width;
+  drag = {x:e.clientX, y:e.clientY, ox:L.x, oy:L.y, k, el:e.target};
+  e.target.setPointerCapture(e.pointerId); e.preventDefault();
+});
+$("stage").addEventListener("pointermove", e => {
+  if (!drag) return; const L = st.logos[st.view];
+  L.x = drag.ox + (e.clientX - drag.x) * drag.k; L.y = drag.oy + (e.clientY - drag.y) * drag.k;
+  drag.el.setAttribute("x", L.x - L.s/2); drag.el.setAttribute("y", L.y - L.s/2);
+});
+$("stage").addEventListener("pointerup", () => { drag = null; });
+
+function show(t, err){ const m = $("msg"); m.textContent = t; m.className = "msg " + (err ? "err" : "ok"); }
+
+function toImg(svg){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg); }); }
+async function sheet(){
+  const src = u => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = u; });
+  const sides = ["left", "right"].filter(v => st.logos[v]);
+  const W = 3000, H = sides.length ? 2250 : 1500;
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, W, H);
+  g.strokeStyle = "#000"; g.lineWidth = 3; g.strokeRect(1, 1, W - 2, H - 2);
+  g.fillStyle = "#000"; g.textAlign = "center";
+  g.font = "900 230px 'Arial Black',Impact,sans-serif"; g.fillText("RIOT", 330, 230);
+  g.font = "400 120px 'Arial Black',Impact,sans-serif"; g.fillText("×", 330, 400);
+  const first = st.logos.front || st.logos.back || st.logos.left || st.logos.right;
+  if (first) { const li = await src(first.url), k = Math.min(420 / li.width, 420 / li.height); g.drawImage(li, 330 - li.width * k / 2, 450, li.width * k, li.height * k); }
+  g.font = "600 44px system-ui,sans-serif"; g.fillText($("biz").value, 330, 930);
+  g.drawImage(await src("data:image/svg+xml;charset=utf-8," + encodeURIComponent(hatSVG("front"))), 1000, 40, 1900, 1330);
+  g.drawImage(await src("data:image/svg+xml;charset=utf-8," + encodeURIComponent(hatSVG("back"))), 40, 1000, 840, 588 > 0 ? 588 : 588);
+  for (let i = 0; i < sides.length; i++) g.drawImage(await src("data:image/svg+xml;charset=utf-8," + encodeURIComponent(hatSVG(sides[i]))), 80 + i * 1500, 1450, 1300, 910);
+  return new Promise((r, j) => c.toBlob(b => b ? r(b) : j(new Error("png")), "image/png"));
+}
+const logoList = () => VIEWS.filter(([v]) => st.logos[v]);
+function summary(){
+  return ["New riot hat order", "",
+    "Business: " + $("biz").value, "Contact: " + $("name").value, "Email: " + $("email").value, "Phone: " + $("phone").value,
+    "Quantity: " + $("qty").value, "",
+    "Front panel colour: " + st.crown, "Side & back panel colour: " + st.side, "Brim & strap colour: " + st.brim, "Top button colour: " + st.btn, "Eyelet stitching colour: " + st.stitch, "",
+    "Logos: " + logoList().map(([v, l]) => l + " (" + st.logos[v].file.name + ")").join(", "),
+    "Notes: " + ($("notes").value || "-")].join("\n");
+}
+function download(blob, name){ const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+
+$("submit").addEventListener("click", async () => {
+  const q = +$("qty").value;
+  if (!$("biz").value.trim() || !$("name").value.trim()) return show("Please add your business name and your name.", true);
+  if (!/^\S+@\S+\.\S+$/.test($("email").value)) return show("Please enter a valid email address.", true);
+  if (!(q >= 10 && q <= 100)) return show("Orders are 10 to 100 hats. Please adjust the quantity.", true);
+  if (!logoList().length) return show("Please upload your logo to at least one side of the hat.", true);
+  const btn = $("submit"); btn.disabled = true; btn.textContent = "Sending…";
+  try {
+    const png = await sheet();
+    if (ORDER_ENDPOINT) {
+      const fd = new FormData();
+      fd.append("_subject", "riot hat order: " + $("biz").value); fd.append("_captcha", "false"); fd.append("_template", "table");
+      fd.append("name", $("name").value); fd.append("email", $("email").value); fd.append("phone", $("phone").value);
+      fd.append("business", $("biz").value); fd.append("quantity", $("qty").value); fd.append("details", summary());
+      fd.append("design", png, "riot-design.png");
+      logoList().forEach(([v]) => fd.append("logo_" + v, st.logos[v].file, st.logos[v].file.name));
+      await fetch(ORDER_ENDPOINT, {method:"POST", body:fd, mode:"no-cors"}); // reply is opaque; only network failures are caught
+      show("Thanks! Your design has been sent. We'll be in touch at " + $("email").value + ".");
+    } else {
+      download(png, "riot-design.png");
+      location.href = "mailto:" + RECIPIENT + "?subject=" + encodeURIComponent("riot hat order: " + $("biz").value) +
+        "&body=" + encodeURIComponent(summary() + "\n\n(Please attach riot-design.png and your logo files.)");
+      show("Your design image has been saved and an email draft opened. Please attach riot-design.png and your logo files, then send.");
+    }
+  } catch (e) { show("Something went wrong sending your design. Please try again or email us directly.", true); }
+  btn.disabled = false; btn.textContent = "Submit design";
+});
+
+// ---------- SHOP ----------
+// PAYMENT: paste a Stripe Payment Link (or Square/other hosted checkout link) into each product's payLink to turn on self checkout.
+// Leave payLink empty to fall back to "order request" (we email a payment link by hand).
+const PRODUCTS = [
+  {id:"core", name:"Riot Core Cap", price:48, stock:0, payLink:"", ink:"#1e2536", pal:{crown:"#e6dcc6", side:"#6b6a4c", brim:"#1e2536", btn:"#1e2536", stitch:"#1e2536"}, desc:"Soft six-panel corduroy cap. Cream front, olive sides, navy brim."},
+  {id:"night", name:"Riot After Dark", price:52, stock:0, payLink:"", ink:"#ffffff", pal:{crown:"#1b1b1b", side:"#3a3d41", brim:"#1b1b1b", btn:"#b32027", stitch:"#b32027"}, desc:"Black and charcoal corduroy with a red button and red eyelet stitching."},
+  {id:"test", name:"Riot Test Cap ($1)", price:1, stock:5, payLink:"", ink:"#ffffff", pal:{crown:"#b32027", side:"#7a1f2b", brim:"#1b1b1b", btn:"#1b1b1b", stitch:"#1b1b1b"}, desc:"Test product for trying out checkout. Remove before launch."}
+];
+const ls = {get(k, d){ try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }, set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+let cart = ls.get("riot_cart", {});
+Object.keys(cart).forEach(id => { const p = PRODUCTS.find(x => x.id === id); if (!p || p.stock <= 0) delete cart[id]; else cart[id] = Math.min(cart[id], p.stock); });
+const money = n => "$" + n.toFixed(2);
+const prod = id => PRODUCTS.find(p => p.id === id);
+const cartCount = () => Object.values(cart).reduce((a, b) => a + b, 0);
+const navUpdate = () => { $("cartN").textContent = cartCount(); };
+const saveCart = () => { ls.set("riot_cart", cart); navUpdate(); };
+const wm = c => "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60"><text x="100" y="47" font-family="Arial Black,Impact,sans-serif" font-weight="900" font-size="50" text-anchor="middle" fill="${c}">RIOT</text></svg>`);
+function thumb(p){
+  const keep = {crown:st.crown, side:st.side, brim:st.brim, btn:st.btn, stitch:st.stitch, logos:st.logos};
+  Object.assign(st, p.pal, {logos:{front:{url:wm(p.ink), x:290, y:195, s:115}}});
+  const svg = hatSVG("front"); Object.assign(st, keep); return svg;
+}
+function msgTo(el, t, err){ el.textContent = t; el.className = "msg " + (err ? "err" : "ok"); }
+
+function renderShop(){
+  $("products").innerHTML = PRODUCTS.map(p => { const out = p.stock <= 0; return `<div class="prod"><div class="pimg ${out ? "so" : ""}">${thumb(p)}${out ? '<span class="badge">Sold out</span>' : ""}</div><div class="pb"><h3 class="pn">${p.name}</h3><p class="hint">${p.desc}</p><p><b>${money(p.price)} AUD</b></p>${out ? `<button class="btn" disabled>Sold out</button><form class="notify" data-id="${p.id}"><input type="email" required placeholder="Email me when it's back"><button class="btn line" type="submit">Notify me</button></form><div class="msg" id="nm-${p.id}"></div>` : `<button class="btn" data-add="${p.id}">Add to cart</button>`}</div></div>`; }).join("");
+}
+function renderCart(){
+  const ids = Object.keys(cart);
+  if (!ids.length) { $("cartBody").innerHTML = '<p>Your cart is empty.</p><a class="btn" href="#shop">Back to shop</a>'; return; }
+  let total = 0;
+  $("cartBody").innerHTML = ids.map(id => { const p = prod(id), q = cart[id]; total += p.price * q; return `<div class="crow"><div class="cimg">${thumb(p)}</div><div class="ci"><b>${p.name}</b><div class="hint">${money(p.price)} AUD</div></div><div class="qty"><button data-act="dec" data-id="${id}" aria-label="Fewer">−</button><span>${q}</span><button data-act="inc" data-id="${id}" aria-label="More">+</button></div><button class="btn line" data-act="rm" data-id="${id}">Remove</button></div>`; }).join("") + `<p style="text-align:right;font-size:18px"><b>Subtotal: ${money(total)} AUD</b></p><p style="text-align:right"><a class="btn" href="#checkout">Checkout</a></p>`;
+}
+const payReady = () => { const ids = Object.keys(cart); return ids.length > 0 && ids.every(id => /^https:\/\//.test(prod(id).payLink || "")); };
+function renderCheckout(){
+  const items = Object.keys(cart);
+  if (!items.length) { $("coBody").innerHTML = '<p>Your cart is empty.</p><a class="btn" href="#shop">Back to shop</a>'; return; }
+  const a = ls.get("riot_acct", {}); let total = 0; const live = payReady();
+  const lines = items.map(id => { const p = prod(id); total += p.price * cart[id]; return `<div>${cart[id]} × ${p.name} <span style="float:right">${money(p.price * cart[id])}</span></div>`; }).join("");
+  const f = (id, label, val, type = "text", ac = "") => `<label class="f" for="${id}">${label}</label><input type="${type}" id="${id}" value="${(val || "").replace(/"/g, "&quot;")}" autocomplete="${ac}">`;
+  $("coBody").innerHTML = `<div class="card">${lines}<hr><b>Total: ${money(total)} AUD</b><div class="hint">Shipping is confirmed when we reply.</div></div>
+  <div class="card" style="margin-top:14px"><h3>Delivery details</h3>${f("c_name","Name",a.name,"text","name")}${f("c_email","Email",a.email,"email","email")}${f("c_phone","Phone",a.phone,"tel","tel")}${f("c_addr","Street address",a.addr,"text","street-address")}
+  <div class="row"><div>${f("c_sub","Suburb",a.sub,"text","address-level2")}</div><div class="row"><div>${f("c_state","State",a.state,"text","address-level1")}</div><div>${f("c_pc","Postcode",a.pc,"text","postal-code")}</div></div></div>
+  <label class="f"><input type="checkbox" id="c_save" checked> Save these details on this device</label>
+  <p class="hint">${live ? "You'll pay securely on our payment provider's page. Card details never touch this site." : "No card details are taken on this site yet. We'll email you a secure payment link to complete your order."}</p>
+  <button class="btn go" id="c_place">${live ? "Pay securely" : "Place order request"}</button><div class="msg" id="c_msg"></div></div>`;
+  $("c_place").onclick = placeOrder;
+}
+async function placeOrder(){
+  const g = id => $(id).value.trim(), m = $("c_msg");
+  if (!g("c_name") || !g("c_addr") || !g("c_sub") || !g("c_state") || !g("c_pc")) return msgTo(m, "Please fill in your name and full delivery address.", true);
+  if (!/^\S+@\S+\.\S+$/.test(g("c_email"))) return msgTo(m, "Please enter a valid email address.", true);
+  let total = 0;
+  const lines = Object.keys(cart).map(id => { const p = prod(id); total += p.price * cart[id]; return cart[id] + " x " + p.name + " (" + money(p.price) + ")"; });
+  const addr = [g("c_addr"), g("c_sub"), g("c_state"), g("c_pc")].join(", ");
+  const text = ["New riot shop order", "", "Items:", ...lines, "Total: " + money(total) + " AUD", "", "Name: " + g("c_name"), "Email: " + g("c_email"), "Phone: " + g("c_phone"), "Address: " + addr].join("\n");
+  const btn = $("c_place"); btn.disabled = true; btn.textContent = "Sending…";
+  try {
+    const fd = new FormData();
+    fd.append("_subject", "riot shop order: " + g("c_name")); fd.append("_captcha", "false"); fd.append("_template", "table");
+    fd.append("name", g("c_name")); fd.append("email", g("c_email")); fd.append("details", text);
+    await fetch(ORDER_ENDPOINT, {method:"POST", body:fd, mode:"no-cors"});
+    if ($("c_save").checked) ls.set("riot_acct", {name:g("c_name"), email:g("c_email"), phone:g("c_phone"), addr:g("c_addr"), sub:g("c_sub"), state:g("c_state"), pc:g("c_pc")});
+    const orders = ls.get("riot_orders", []); orders.unshift({date:new Date().toISOString().slice(0, 10), lines, total}); ls.set("riot_orders", orders);
+    const ids = Object.keys(cart), live = payReady();
+    const links = ids.map(id => { const u = new URL(prod(id).payLink || "https://invalid.invalid"); u.searchParams.set("prefilled_email", g("c_email")); return {p:prod(id), q:cart[id], url:u.toString()}; });
+    cart = {}; saveCart();
+    if (live && links.length === 1) { location.href = links[0].url; return; }
+    if (live) { $("coBody").innerHTML = '<div class="msg ok" style="display:block">Almost done. Pay for each item below.</div>' + links.map(l => '<p><a class="btn" href="' + l.url + '">Pay for ' + l.q + ' × ' + l.p.name + '</a></p>').join(""); return; }
+    $("coBody").innerHTML = '<div class="msg ok" style="display:block">Thanks! Your order request is in. We\'ll email ' + g("c_email").replace(/[<>&]/g, "") + ' with a payment link.</div><p><a class="btn" href="#shop">Back to shop</a></p>';
+  } catch (e) { msgTo(m, "Something went wrong sending your order. Please try again or email " + ORDER_EMAIL + ".", true); btn.disabled = false; btn.textContent = "Place order request"; }
+}
+function renderAccount(){
+  const a = ls.get("riot_acct", {});
+  [["a_name","name"],["a_email","email"],["a_phone","phone"],["a_addr","addr"],["a_sub","sub"],["a_state","state"],["a_pc","pc"]].forEach(([id, k]) => { $(id).value = a[k] || ""; });
+  const o = ls.get("riot_orders", []);
+  $("a_orders").innerHTML = o.length ? o.map(x => `<div class="hint"><b>${x.date}</b> · ${x.lines.join(", ")} · ${money(x.total)}</div>`).join("") : '<p class="hint">No orders yet.</p>';
+}
+$("a_save").onclick = () => { ls.set("riot_acct", {name:$("a_name").value, email:$("a_email").value, phone:$("a_phone").value, addr:$("a_addr").value, sub:$("a_sub").value, state:$("a_state").value, pc:$("a_pc").value}); msgTo($("a_msg"), "Saved on this device.", false); };
+$("a_clear").onclick = () => { ls.set("riot_acct", {}); ls.set("riot_orders", []); renderAccount(); msgTo($("a_msg"), "Your saved data was cleared from this device.", false); };
+
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-add]");
+  if (a) { const p = prod(a.dataset.add); if (p && p.stock > 0) { cart[p.id] = Math.min((cart[p.id] || 0) + 1, p.stock); saveCart(); location.hash = "#cart"; } return; }
+  const c = e.target.closest("[data-act]");
+  if (c) { const id = c.dataset.id, p = prod(id), act = c.dataset.act; if (!p) return;
+    if (act === "inc") cart[id] = Math.min((cart[id] || 0) + 1, p.stock);
+    if (act === "dec") cart[id] = Math.max((cart[id] || 0) - 1, 0);
+    if (act === "rm" || !cart[id]) delete cart[id];
+    saveCart(); renderCart(); }
+});
+document.addEventListener("submit", async e => {
+  const f = e.target.closest(".notify"); if (!f) return; e.preventDefault();
+  const p = prod(f.dataset.id), m = $("nm-" + p.id), email = f.querySelector("input").value;
+  try {
+    const fd = new FormData(); fd.append("_subject", "Restock request: " + p.name); fd.append("_captcha", "false");
+    fd.append("email", email); fd.append("product", p.name); fd.append("message", email + " wants to be notified when " + p.name + " is back in stock.");
+    await fetch(ORDER_ENDPOINT, {method:"POST", body:fd, mode:"no-cors"});
+    msgTo(m, "Thanks! We'll email you when it's back.", false); f.reset();
+  } catch (err) { msgTo(m, "Couldn't send that. Please try again.", true); }
+});
+
+const PAGES = {"":"home", "#design":"designer", "#shop":"shop", "#cart":"cart", "#checkout":"checkout", "#account":"account"};
+function route(){
+  const id = PAGES[location.hash] || "home";
+  Object.values(PAGES).forEach(v => { $(v).hidden = v !== id; });
+  document.querySelectorAll(".navlinks a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === (location.hash || "#")));
+  window.scrollTo(0, 0);
+  if (id === "designer") { colours(); draw(); }
+  if (id === "shop") renderShop();
+  if (id === "cart") renderCart();
+  if (id === "checkout") renderCheckout();
+  if (id === "account") renderAccount();
+}
+addEventListener("hashchange", route); navUpdate(); route();
+</script>
+</body>
+</html>
